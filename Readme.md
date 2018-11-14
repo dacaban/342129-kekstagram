@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Даша Белоусова](https://up.htmlacademy.ru/javascript/16/user/342129).
-* Наставник: `Неизвестно`.
+* Наставник: [Евгений Фаллер](https://up.htmlacademy.ru/javascript/16/user/505933).
 
 ---
 
