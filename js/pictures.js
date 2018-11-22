@@ -34,7 +34,14 @@ var renderPhoto = function (userPhoto) {
   var userPhotoElement = pictureTemplate.cloneNode(true);
   userPhotoElement.querySelector('.picture__img').src = userPhoto.url;
   userPhotoElement.querySelector('.picture__likes').textContent = userPhoto.likes;
-  userPhotoElement.querySelector('.picture__comments').textContent = userPhoto.comments.length + '';
+  userPhotoElement.querySelector('.picture__comments').textContent = userPhoto.comments.length;
   return userPhotoElement;
 };
+
+
+var fragment = document.createDocumentFragment();
+for (i = 0; i < usersPhotos.length; i++) {
+  fragment.appendChild(renderPhoto(usersPhotos[i]));
+}
+
 
