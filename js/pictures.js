@@ -27,3 +27,14 @@ var usersPhotos = [];
 for (var i = 0; i < 25; i++) {
   usersPhotos[i] = generatePhoto(i + 1);
 }
+
+var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+
+var renderPhoto = function (userPhoto) {
+  var userPhotoElement = pictureTemplate.cloneNode(true);
+  userPhotoElement.querySelector('.picture__img').src = userPhoto.url;
+  userPhotoElement.querySelector('.picture__likes').textContent = userPhoto.likes;
+  userPhotoElement.querySelector('.picture__comments').textContent = userPhoto.comments.length + '';
+  return userPhotoElement;
+};
+
