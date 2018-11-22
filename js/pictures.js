@@ -28,6 +28,8 @@ for (var i = 0; i < 25; i++) {
   usersPhotos[i] = generatePhoto(i + 1);
 }
 
+var picturesElement = document.querySelector('.pictures');
+
 var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
 var renderPhoto = function (userPhoto) {
@@ -44,4 +46,5 @@ for (i = 0; i < usersPhotos.length; i++) {
   fragment.appendChild(renderPhoto(usersPhotos[i]));
 }
 
+picturesElement.appendChild(fragment);
 
