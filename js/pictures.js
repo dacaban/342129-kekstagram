@@ -11,6 +11,7 @@ var generateCommentsList = function (number) {
   for (var i = 0; i < number; i++) {
     commentsList[i] = COMMENTS[getRandomInt(0, COMMENTS.length)];
   }
+  return commentsList;
 };
 
 
