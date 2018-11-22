@@ -14,4 +14,12 @@ var generateCommentsList = function (number) {
   return commentsList;
 };
 
+var generatePhoto = function (i) {
+  return {
+    url: 'photos/' + i + '.jpg',
+    likes: getRandomInt(15, 200),
+    comments: generateCommentsList(getRandomInt(1, 6)),
+    description: DESCRIPTION[getRandomInt(0, DESCRIPTION.length)]
+  };
+};
 
