@@ -23,3 +23,7 @@ var generatePhoto = function (i) {
   };
 };
 
+var usersPhotos = [];
+for (var i = 0; i < 25; i++) {
+  usersPhotos[i] = generatePhoto(i + 1);
+}
