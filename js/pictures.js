@@ -80,3 +80,8 @@ var cleanElement = function (element) {
 cleanElement(pictureCommentList);
 
 pictureCommentList.appendChild(fragmentComments);
+var commentCount = bigPictureElement.querySelector('.social__comment-count');
+var commentsLoader = bigPictureElement.querySelector('.comments-loader');
+commentCount.classList.add('visually-hidden');
+commentsLoader.classList.add('visually-hidden');
+
