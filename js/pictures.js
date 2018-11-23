@@ -33,18 +33,50 @@ var picturesElement = document.querySelector('.pictures');
 var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
 var renderPhoto = function (userPhoto) {
-  var userPhotoElement = pictureTemplate.cloneNode(true);
-  userPhotoElement.querySelector('.picture__img').src = userPhoto.url;
-  userPhotoElement.querySelector('.picture__likes').textContent = userPhoto.likes;
-  userPhotoElement.querySelector('.picture__comments').textContent = userPhoto.comments.length;
-  return userPhotoElement;
+  var userPhotoClone = pictureTemplate.cloneNode(true);
+  userPhotoClone.querySelector('.picture__img').src = userPhoto.url;
+  userPhotoClone.querySelector('.picture__likes').textContent = userPhoto.likes;
+  userPhotoClone.querySelector('.picture__comments').textContent = userPhoto.comments.length;
+  return userPhotoClone;
 };
 
 
-var fragment = document.createDocumentFragment();
+var fragmentPhotos = document.createDocumentFragment();
 for (i = 0; i < usersPhotos.length; i++) {
-  fragment.appendChild(renderPhoto(usersPhotos[i]));
+  fragmentPhotos.appendChild(renderPhoto(usersPhotos[i]));
+}
+picturesElement.appendChild(fragmentPhotos);
+
+var bigPictureElement = document.querySelector('.big-picture');
+var pictureCommentList = bigPictureElement.querySelector('.social__comments');
+var pictureComment = pictureCommentList.querySelector('.social__comment');
+
+var renderComment = function (comment) {
+  var pictureCommentsClone = pictureComment.cloneNode(true);
+  pictureCommentsClone.querySelector('.social__picture').src = 'img/avatar-' + getRandomInt(1, 6) + '.svg';
+  pictureCommentsClone.querySelector('.social__text').textContent = comment;
+  return pictureCommentsClone;
+};
+
+bigPictureElement.classList.remove('hidden');
+bigPictureElement.querySelector('.big-picture__img').querySelector('img').src = usersPhotos[0].url;
+bigPictureElement.querySelector('.likes-count').textContent = usersPhotos[0].likes;
+bigPictureElement.querySelector('.comments-count').textContent = usersPhotos[0].comments.length;
+bigPictureElement.querySelector('.social__caption').textContent = usersPhotos[0].description;
+
+var fragmentComments = document.createDocumentFragment();
+for (i = 0; i < usersPhotos[0].comments.length; i++) {
+  fragmentComments.appendChild(renderComment(usersPhotos[0].comments[i]));
 }
 
-picturesElement.appendChild(fragment);
+var cleanElement = function (element) {
+  if (element.children.length > 0) {
+    for (i = element.children.length - 1; i >= 0; i--) {
+      element.removeChild(element.children[i]);
+    }
+  }
+};
 
+cleanElement(pictureCommentList);
+
+pictureCommentList.appendChild(fragmentComments);
