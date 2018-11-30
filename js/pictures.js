@@ -8,6 +8,8 @@ var COMMENTS_MAX = 6;
 var FIRST_AVATAR_INDEX = 1;
 var LAST_AVATAR_INDEX = 6;
 var PHOTOS = 25;
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -98,6 +100,13 @@ picturesElement.addEventListener('click', function (evt) {
   var target = evt.target;
   if (target.classList.contains('picture__img')) {
     bigPictureOpen(usersPhotos[target.id]);
+  }
+});
+
+picturesElement.addEventListener('keydown', function (evt) {
+  var target = evt.target;
+  if ((evt.keyCode === ENTER_KEYCODE) && (target.classList.contains('picture'))) {
+    bigPictureOpen(usersPhotos[target.querySelector('.picture__img').id]);
   }
 });
 
