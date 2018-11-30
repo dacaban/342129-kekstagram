@@ -1,6 +1,13 @@
 'use strict';
 var COMMENTS = ['Всё отлично!', 'В целом всё неплохо. Но не всё.', 'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.', 'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.', 'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
 var DESCRIPTION = ['Тестим новую камеру!', 'Затусили с друзьями на море', 'Как же круто тут кормят', 'Отдыхаем...', 'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......', 'Вот это тачка!'];
+var LIKES_MIN = 15;
+var LIKES_MAX = 200;
+var COMMENTS_MIN = 1;
+var COMMENTS_MAX = 6;
+var FIRST_AVATAR_INREX = 1;
+var LAST_AVATAR_INDEX = 6;
+var PHOTOS = 25;
 
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -17,14 +24,14 @@ var generateCommentsList = function (number) {
 var generatePhoto = function (i) {
   return {
     url: 'photos/' + i + '.jpg',
-    likes: getRandomInt(15, 200),
-    comments: generateCommentsList(getRandomInt(1, 6)),
+    likes: getRandomInt(LIKES_MIN, LIKES_MAX),
+    comments: generateCommentsList(getRandomInt(COMMENTS_MIN, COMMENTS_MAX)),
     description: DESCRIPTION[getRandomInt(0, DESCRIPTION.length)]
   };
 };
 
 var usersPhotos = [];
-for (var i = 0; i < 25; i++) {
+for (var i = 0; i < PHOTOS; i++) {
   usersPhotos[i] = generatePhoto(i + 1);
 }
 
@@ -53,7 +60,7 @@ var pictureComment = pictureCommentList.querySelector('.social__comment');
 
 var renderComment = function (comment) {
   var pictureCommentsClone = pictureComment.cloneNode(true);
-  pictureCommentsClone.querySelector('.social__picture').src = 'img/avatar-' + getRandomInt(1, 6) + '.svg';
+  pictureCommentsClone.querySelector('.social__picture').src = 'img/avatar-' + getRandomInt(FIRST_AVATAR_INREX, LAST_AVATAR_INDEX) + '.svg';
   pictureCommentsClone.querySelector('.social__text').textContent = comment;
   return pictureCommentsClone;
 };
