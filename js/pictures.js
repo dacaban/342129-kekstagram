@@ -5,7 +5,7 @@ var LIKES_MIN = 15;
 var LIKES_MAX = 200;
 var COMMENTS_MIN = 1;
 var COMMENTS_MAX = 6;
-var FIRST_AVATAR_INREX = 1;
+var FIRST_AVATAR_INDEX = 1;
 var LAST_AVATAR_INDEX = 6;
 var PHOTOS = 25;
 
@@ -22,17 +22,19 @@ var generateCommentsList = function (number) {
 };
 
 var generatePhoto = function (i) {
+  var photoNumber = i + 1;
   return {
-    url: 'photos/' + i + '.jpg',
+    url: 'photos/' + photoNumber + '.jpg',
     likes: getRandomInt(LIKES_MIN, LIKES_MAX),
     comments: generateCommentsList(getRandomInt(COMMENTS_MIN, COMMENTS_MAX)),
-    description: DESCRIPTION[getRandomInt(0, DESCRIPTION.length)]
+    description: DESCRIPTION[getRandomInt(0, DESCRIPTION.length)],
+    id: i
   };
 };
 
 var usersPhotos = [];
 for (var i = 0; i < PHOTOS; i++) {
-  usersPhotos[i] = generatePhoto(i + 1);
+  usersPhotos[i] = generatePhoto(i);
 }
 
 var picturesElement = document.querySelector('.pictures');
@@ -42,6 +44,7 @@ var pictureTemplate = document.querySelector('#picture').content.querySelector('
 var renderPhoto = function (userPhoto) {
   var userPhotoClone = pictureTemplate.cloneNode(true);
   userPhotoClone.querySelector('.picture__img').src = userPhoto.url;
+  userPhotoClone.querySelector('.picture__img').id = userPhoto.id;
   userPhotoClone.querySelector('.picture__likes').textContent = userPhoto.likes;
   userPhotoClone.querySelector('.picture__comments').textContent = userPhoto.comments.length;
   return userPhotoClone;
@@ -60,7 +63,7 @@ var pictureComment = pictureCommentList.querySelector('.social__comment');
 
 var renderComment = function (comment) {
   var pictureCommentsClone = pictureComment.cloneNode(true);
-  pictureCommentsClone.querySelector('.social__picture').src = 'img/avatar-' + getRandomInt(FIRST_AVATAR_INREX, LAST_AVATAR_INDEX) + '.svg';
+  pictureCommentsClone.querySelector('.social__picture').src = 'img/avatar-' + getRandomInt(FIRST_AVATAR_INDEX, LAST_AVATAR_INDEX) + '.svg';
   pictureCommentsClone.querySelector('.social__text').textContent = comment;
   return pictureCommentsClone;
 };
@@ -74,23 +77,35 @@ var cleanElement = function (element) {
   }
 };
 
-cleanElement(pictureCommentList);
+var bigPictureOpen = function (photo) {
+  cleanElement(pictureCommentList);
+  bigPictureElement.querySelector('.big-picture__img').querySelector('img').src = photo.url;
+  bigPictureElement.querySelector('.likes-count').textContent = photo.likes;
+  bigPictureElement.querySelector('.comments-count').textContent = photo.comments.length;
+  bigPictureElement.querySelector('.social__caption').textContent = photo.description;
 
-bigPictureElement.classList.remove('hidden');
-bigPictureElement.querySelector('.big-picture__img').querySelector('img').src = usersPhotos[0].url;
-bigPictureElement.querySelector('.likes-count').textContent = usersPhotos[0].likes;
-bigPictureElement.querySelector('.comments-count').textContent = usersPhotos[0].comments.length;
-bigPictureElement.querySelector('.social__caption').textContent = usersPhotos[0].description;
+  var fragmentComments = document.createDocumentFragment();
+  for (var j = 0; j < photo.comments.length; j++) {
+    fragmentComments.appendChild(renderComment(photo.comments[j]));
+  }
 
-var fragmentComments = document.createDocumentFragment();
-for (i = 0; i < usersPhotos[0].comments.length; i++) {
-  fragmentComments.appendChild(renderComment(usersPhotos[0].comments[i]));
-}
+  pictureCommentList.appendChild(fragmentComments);
 
-pictureCommentList.appendChild(fragmentComments);
+  bigPictureElement.classList.remove('hidden');
+};
 
-var commentCount = bigPictureElement.querySelector('.social__comment-count');
+picturesElement.addEventListener('click', function (evt) {
+  var target = evt.target;
+  if (target.classList.contains('picture__img')) {
+    bigPictureOpen(usersPhotos[target.id]);
+  }
+});
+
+var bigPictureClose = bigPictureElement.querySelector('.big-picture__cancel');
+bigPictureClose.addEventListener('click', function () {
+  bigPictureElement.classList.add('hidden');
+});
+
 var commentsLoader = bigPictureElement.querySelector('.comments-loader');
-commentCount.classList.add('visually-hidden');
 commentsLoader.classList.add('visually-hidden');
 
