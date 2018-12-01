@@ -121,8 +121,18 @@ document.addEventListener('keydown', function (evt) {
   if ((evt.keyCode === ESC_KEYCODE) && (document.activeElement !== commentInput)) {
     bigPictureElement.classList.add('hidden');
   }
-})
+});
 
 var commentsLoader = bigPictureElement.querySelector('.comments-loader');
 commentsLoader.classList.add('visually-hidden');
 
+var uploadInput = picturesElement.querySelector('#upload-file');
+var uploadElement = document.querySelector('.img-upload__overlay');
+var uploadClose = uploadElement.querySelector('.img-upload__cancel');
+uploadInput.addEventListener('change', function () {
+  uploadElement.classList.remove('hidden');
+});
+
+uploadClose.addEventListener('click', function () {
+  uploadElement.classList.add('hidden');
+});
