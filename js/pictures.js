@@ -210,3 +210,21 @@ scaleBigger.addEventListener('keydown', function (evt) {
     increasePhoto(evt);
   }
 });
+
+var effectsElement = uploadElement.querySelector('.effects');
+var effectsInput = effectsElement.querySelectorAll('.effects__radio');
+var effectsPreviews = effectsElement.querySelectorAll('.effects__preview');
+
+var effects = {};
+for (i = 0; i < effectsInput.length; i++) {
+  effects[effectsInput[i].id] = effectsPreviews[i].classList[1];
+}
+
+effectsElement.addEventListener('click', function (evt) {
+  var target = evt.target;
+  if (photoPreview.classList.length > 1) {
+    var photoClass = photoPreview.classList[1];
+    photoPreview.classList.remove(photoClass);
+  }
+  photoPreview.classList.add(effects[target.id]);
+});
