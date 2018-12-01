@@ -95,6 +95,15 @@ var closePopup = function (popup) {
   body.classList.remove('modal-open');
 };
 
+
+var isEscEvent = function (evt) {
+  return (evt.keyCode === ESC_KEYCODE);
+};
+
+var isEnterEvent = function (evt) {
+  return (evt.keyCode === ENTER_KEYCODE);
+};
+
 var bigPictureOpen = function (photo) {
   cleanElement(pictureCommentList);
   bigPictureElement.querySelector('.big-picture__img').querySelector('img').src = photo.url;
@@ -121,7 +130,7 @@ picturesElement.addEventListener('click', function (evt) {
 
 picturesElement.addEventListener('keydown', function (evt) {
   var target = evt.target;
-  if ((evt.keyCode === ENTER_KEYCODE) && (target.classList.contains('picture'))) {
+  if ((isEnterEvent(evt)) && (target.classList.contains('picture'))) {
     bigPictureOpen(usersPhotos[target.querySelector('.picture__img').id]);
   }
 });
@@ -133,7 +142,7 @@ bigPictureClose.addEventListener('click', function () {
 });
 
 document.addEventListener('keydown', function (evt) {
-  if ((evt.keyCode === ESC_KEYCODE) && (document.activeElement !== commentInput)) {
+  if ((isEscEvent(evt)) && (document.activeElement !== commentInput)) {
     closePopup(bigPictureElement);
   }
 });
@@ -154,7 +163,7 @@ uploadClose.addEventListener('click', function () {
 });
 
 document.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if (isEscEvent(evt)) {
     closePopup(uploadElement);
   }
 });
@@ -164,36 +173,40 @@ var scaleBigger = uploadElement.querySelector('.scale__control--bigger');
 var scaleValue = uploadElement.querySelector('.scale__control--value');
 var photoPreview = uploadElement.querySelector('.img-upload__preview');
 
-scaleSmaller.addEventListener('click', function () {
+var reducePhoto = function (evt) {
   if (parseInt(scaleValue.value, 10) > MIN_SCALE) {
+    evt.preventDefault();
     var newScale = parseInt(scaleValue.value, 10) - SCALE_STEP;
     scaleValue.value = newScale + '%';
     photoPreview.style.transform = 'scale(' + newScale * HUNDREDTH_PART + ')';
   }
+};
+
+var increasePhoto = function (evt) {
+  if (parseInt(scaleValue.value, 10) < MAX_SCALE) {
+    evt.preventDefault();
+    var newScale = parseInt(scaleValue.value, 10) + SCALE_STEP;
+    scaleValue.value = newScale + '%';
+    photoPreview.style.transform = 'scale(' + newScale * HUNDREDTH_PART + ')';
+  }
+};
+
+scaleSmaller.addEventListener('click', function (evt) {
+  reducePhoto(evt);
 });
 
 scaleSmaller.addEventListener('keydown', function (evt) {
-  if ((evt.keyCode === ENTER_KEYCODE) && (parseInt(scaleValue.value, 10) > MIN_SCALE)) {
-    evt.preventDefault();
-    var newScale = parseInt(scaleValue.value, 10) - SCALE_STEP;
-    scaleValue.value = newScale + '%';
-    photoPreview.style.transform = 'scale(' + newScale * HUNDREDTH_PART + ')';
+  if (isEnterEvent(evt)) {
+    reducePhoto(evt);
   }
 });
 
-scaleBigger.addEventListener('click', function () {
-  if (parseInt(scaleValue.value, 10) < MAX_SCALE) {
-    var newScale = parseInt(scaleValue.value, 10) + SCALE_STEP;
-    scaleValue.value = newScale + '%';
-    photoPreview.style.transform = 'scale(' + newScale * HUNDREDTH_PART + ')';
-  }
+scaleBigger.addEventListener('click', function (evt) {
+  increasePhoto(evt);
 });
 
 scaleBigger.addEventListener('keydown', function (evt) {
-  if ((evt.keyCode === ENTER_KEYCODE) && (parseInt(scaleValue.value, 10) < MAX_SCALE)) {
-    evt.preventDefault();
-    var newScale = parseInt(scaleValue.value, 10) + SCALE_STEP;
-    scaleValue.value = newScale + '%';
-    photoPreview.style.transform = 'scale(' + newScale * HUNDREDTH_PART + ')';
+  if (isEnterEvent(evt)) {
+    increasePhoto(evt);
   }
 });
