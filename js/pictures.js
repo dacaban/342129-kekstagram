@@ -10,6 +10,10 @@ var LAST_AVATAR_INDEX = 6;
 var PHOTOS = 25;
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
+var MIN_SCALE = 25;
+var MAX_SCALE = 100;
+var SCALE_STEP = 25;
+var HUNDREDTH_PART = 0.01;
 
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -152,5 +156,44 @@ uploadClose.addEventListener('click', function () {
 document.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     closePopup(uploadElement);
+  }
+});
+
+var scaleSmaller = uploadElement.querySelector('.scale__control--smaller');
+var scaleBigger = uploadElement.querySelector('.scale__control--bigger');
+var scaleValue = uploadElement.querySelector('.scale__control--value');
+var photoPreview = uploadElement.querySelector('.img-upload__preview');
+
+scaleSmaller.addEventListener('click', function () {
+  if (parseInt(scaleValue.value, 10) > MIN_SCALE) {
+    var newScale = parseInt(scaleValue.value, 10) - SCALE_STEP;
+    scaleValue.value = newScale + '%';
+    photoPreview.style.transform = 'scale(' + newScale * HUNDREDTH_PART + ')';
+  }
+});
+
+scaleSmaller.addEventListener('keydown', function (evt) {
+  if ((evt.keyCode === ENTER_KEYCODE) && (parseInt(scaleValue.value, 10) > MIN_SCALE)) {
+    evt.preventDefault();
+    var newScale = parseInt(scaleValue.value, 10) - SCALE_STEP;
+    scaleValue.value = newScale + '%';
+    photoPreview.style.transform = 'scale(' + newScale * HUNDREDTH_PART + ')';
+  }
+});
+
+scaleBigger.addEventListener('click', function () {
+  if (parseInt(scaleValue.value, 10) < MAX_SCALE) {
+    var newScale = parseInt(scaleValue.value, 10) + SCALE_STEP;
+    scaleValue.value = newScale + '%';
+    photoPreview.style.transform = 'scale(' + newScale * HUNDREDTH_PART + ')';
+  }
+});
+
+scaleBigger.addEventListener('keydown', function (evt) {
+  if ((evt.keyCode === ENTER_KEYCODE) && (parseInt(scaleValue.value, 10) < MAX_SCALE)) {
+    evt.preventDefault();
+    var newScale = parseInt(scaleValue.value, 10) + SCALE_STEP;
+    scaleValue.value = newScale + '%';
+    photoPreview.style.transform = 'scale(' + newScale * HUNDREDTH_PART + ')';
   }
 });
