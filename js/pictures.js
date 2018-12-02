@@ -14,6 +14,8 @@ var MIN_SCALE = 25;
 var MAX_SCALE = 100;
 var SCALE_STEP = 25;
 var HUNDREDTH_PART = 0.01;
+var HASHTAGS_MAX = 5;
+var HASHTAGS_LENGTH_MAX = 20;
 
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -227,4 +229,76 @@ effectsElement.addEventListener('click', function (evt) {
     photoPreview.classList.remove(photoClass);
   }
   photoPreview.classList.add(effects[target.id]);
+});
+
+var isCountCorrect = function (array) {
+  return (array.length <= HASHTAGS_MAX);
+};
+
+var isLagthHashCorrect = function (array) {
+  var flag = true;
+  for (i = 0; i < array.length; i++) {
+    if (array[i].length > HASHTAGS_LENGTH_MAX) {
+      flag = false;
+      break;
+    }
+  }
+  return flag;
+};
+
+var isAllHash = function (array) {
+  var flag = true;
+  for (i = 0; i < array.length; i++) {
+    if (array[i].charAt(0) !== '#') {
+      flag = false;
+      break;
+    }
+  }
+  return flag;
+};
+
+var isNotOnlyHash = function (array) {
+  var flag = true;
+  for (i = 0; i < array.length; i++) {
+    if (array[i].length === 1) {
+      flag = false;
+      break;
+    }
+  }
+  return flag;
+};
+
+var isHastagsDifferent = function (array) {
+  var flag = true;
+  for (i = 0; i < array.length - 1; i++) {
+    for (var j = i + 1; j < array.length; j++) {
+      if (array[i].toLowerCase() === array[j].toLowerCase()) {
+        flag = false;
+        break;
+      }
+    }
+  }
+  return flag;
+};
+
+var hashtagInput = uploadElement.querySelector('.text__hashtags');
+hashtagInput.addEventListener('input', function () {
+  if (hashtagInput.value !== '') {
+    var hashtags = hashtagInput.value.split(' ');
+    if (!isCountCorrect(hashtags)) {
+      hashtagInput.setCustomValidity('Можно добавить не больше 5-ти хеш-тегов');
+    } else if (!isLagthHashCorrect(hashtags)) {
+      hashtagInput.setCustomValidity('Длина хеш-тега не должна превосходить 20-ти символов, включая #');
+    } else if (!isAllHash(hashtags)) {
+      hashtagInput.setCustomValidity('Хеш-тег должен начинаться со знака #');
+    } else if (!isNotOnlyHash(hashtags)) {
+      hashtagInput.setCustomValidity('Хеш-тег не может содержать только знак #');
+    } else if (!isHastagsDifferent(hashtags)) {
+      hashtagInput.setCustomValidity('Нельзя использовать 2 одинаковых хеш-тега');
+    } else {
+      hashtagInput.setCustomValidity('');
+    }
+  } else {
+    hashtagInput.setCustomValidity('');
+  }
 });
