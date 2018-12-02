@@ -170,9 +170,10 @@ document.addEventListener('keydown', function (evt) {
   }
 });
 
-var scaleSmaller = uploadElement.querySelector('.scale__control--smaller');
-var scaleBigger = uploadElement.querySelector('.scale__control--bigger');
-var scaleValue = uploadElement.querySelector('.scale__control--value');
+var scaleElement = uploadElement.querySelector('.scale');
+var scaleSmaller = scaleElement.querySelector('.scale__control--smaller');
+var scaleBigger = scaleElement.querySelector('.scale__control--bigger');
+var scaleValue = scaleElement.querySelector('.scale__control--value');
 var photoPreview = uploadElement.querySelector('.img-upload__preview');
 
 var reducePhoto = function (evt) {
@@ -193,23 +194,24 @@ var increasePhoto = function (evt) {
   }
 };
 
-scaleSmaller.addEventListener('click', function (evt) {
-  reducePhoto(evt);
-});
-
-scaleSmaller.addEventListener('keydown', function (evt) {
-  if (isEnterEvent(evt)) {
+scaleElement.addEventListener('click', function (evt) {
+  var target = evt.target;
+  if (target === scaleSmaller) {
     reducePhoto(evt);
+  } else if (target === scaleBigger) {
+    increasePhoto(evt);
   }
 });
 
-scaleBigger.addEventListener('click', function (evt) {
-  increasePhoto(evt);
-});
-
-scaleBigger.addEventListener('keydown', function (evt) {
+scaleElement.addEventListener('keydown', function (evt) {
   if (isEnterEvent(evt)) {
-    increasePhoto(evt);
+    evt.preventDefault();
+    var target = evt.target;
+    if (target === scaleSmaller) {
+      reducePhoto(evt);
+    } else if (target === scaleBigger) {
+      increasePhoto(evt);
+    }
   }
 });
 
