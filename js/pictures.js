@@ -87,6 +87,9 @@ var cleanElement = function (element) {
 };
 
 var body = document.querySelector('body');
+var isPopupOpen = function (popap) {
+  return !popap.classList.contains('hidden');
+};
 var openPopup = function (popup) {
   popup.classList.remove('hidden');
   body.classList.add('modal-open');
@@ -144,7 +147,7 @@ bigPictureClose.addEventListener('click', function () {
 });
 
 document.addEventListener('keydown', function (evt) {
-  if ((isEscEvent(evt)) && (document.activeElement !== commentInput)) {
+  if ((isPopupOpen(bigPictureElement)) && (isEscEvent(evt)) && (document.activeElement !== commentInput)) {
     closePopup(bigPictureElement);
   }
 });
@@ -155,6 +158,8 @@ commentsLoader.classList.add('visually-hidden');
 var uploadInput = picturesElement.querySelector('#upload-file');
 var uploadElement = document.querySelector('.img-upload__overlay');
 var uploadClose = uploadElement.querySelector('.img-upload__cancel');
+var hashtagInput = uploadElement.querySelector('.text__hashtags');
+var descriptionTextarea = uploadElement.querySelector('.text__description');
 
 uploadInput.addEventListener('change', function () {
   openPopup(uploadElement);
@@ -165,7 +170,7 @@ uploadClose.addEventListener('click', function () {
 });
 
 document.addEventListener('keydown', function (evt) {
-  if (isEscEvent(evt)) {
+  if ((isPopupOpen(uploadElement)) && (isEscEvent(evt)) && (document.activeElement !== hashtagInput) && (document.activeElement !== descriptionTextarea)) {
     closePopup(uploadElement);
   }
 });
@@ -294,7 +299,6 @@ var isHashtagsHasSpace = function (array) {
   return flag;
 };
 
-var hashtagInput = uploadElement.querySelector('.text__hashtags');
 hashtagInput.addEventListener('input', function () {
   if (hashtagInput.value !== '') {
     var hashtags = hashtagInput.value.split(' ');
