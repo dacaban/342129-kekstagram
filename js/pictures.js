@@ -283,6 +283,17 @@ var isHastagsDifferent = function (array) {
   return flag;
 };
 
+var isHashtagsHasSpace = function (array) {
+  var flag = true;
+  for (i = 0; i < array.length; i++) {
+    if (array[i].slice(1).search('#') > 0) {
+      flag = false;
+      break;
+    }
+  }
+  return flag;
+};
+
 var hashtagInput = uploadElement.querySelector('.text__hashtags');
 hashtagInput.addEventListener('input', function () {
   if (hashtagInput.value !== '') {
@@ -297,6 +308,8 @@ hashtagInput.addEventListener('input', function () {
       hashtagInput.setCustomValidity('Хеш-тег не может содержать только знак #');
     } else if (!isHastagsDifferent(hashtags)) {
       hashtagInput.setCustomValidity('Нельзя использовать 2 одинаковых хеш-тега');
+    } else if (!isHashtagsHasSpace(hashtags)) {
+      hashtagInput.setCustomValidity('Хеш-теги должны быть разделены пробелами');
     } else {
       hashtagInput.setCustomValidity('');
     }
