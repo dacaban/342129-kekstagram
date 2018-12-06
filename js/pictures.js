@@ -16,6 +16,7 @@ var SCALE_STEP = 25;
 var HUNDREDTH_PART = 0.01;
 var HASHTAGS_MAX = 5;
 var HASHTAGS_LENGTH_MAX = 20;
+var MAX_EFFECT = 3;
 
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -223,19 +224,78 @@ scaleElement.addEventListener('keydown', function (evt) {
 var effectsElement = uploadElement.querySelector('.effects');
 var effectsInput = effectsElement.querySelectorAll('.effects__radio');
 var effectsPreviews = effectsElement.querySelectorAll('.effects__preview');
+var effectsLevelElement = uploadElement.querySelector('.effect-level');
+var effectsLine = effectsLevelElement.querySelector('.effect-level__line');
+var effectsLevelInput = effectsLevelElement.querySelector('.effect-level__value');
+var effectsPin = effectsLevelElement.querySelector('.effect-level__pin');
+var effectsDepth = effectsLevelElement.querySelector('.effect-level__depth');
 
 var effects = {};
 for (i = 0; i < effectsInput.length; i++) {
-  effects[effectsInput[i].id] = effectsPreviews[i].classList[1];
+  var effect = effectsInput[i].id.split('-').pop();
+  effects[effect] = effectsPreviews[i].classList[1];
 }
 
 effectsElement.addEventListener('click', function (evt) {
   var target = evt.target;
+  photoPreview.removeAttribute('style');
   if (photoPreview.classList.length > 1) {
     var photoClass = photoPreview.classList[1];
     photoPreview.classList.remove(photoClass);
   }
-  photoPreview.classList.add(effects[target.id]);
+  var effectKey = target.id.split('-').pop();
+  photoPreview.classList.add(effects[effectKey]);
+  if (effectKey === 'none') {
+    effectsLevelElement.classList.add('hidden');
+  } else {
+    effectsLevelElement.classList.remove('hidden');
+  }
+  effectsLevelInput.value = 100;
+  effectsPin.style.left = effectsLine.offsetWidth + 'px';
+  effectsDepth.style.width = effectsLine.offsetWidth + 'px';
+});
+
+effectsPin.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+  var startCoordX = evt.clientX;
+  var getPercents = function (coord) {
+    return Math.round(coord * 100 / effectsLine.offsetWidth);
+  };
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+    var shift = startCoordX - moveEvt.clientX;
+    startCoordX = moveEvt.clientX;
+    var newCoord = (effectsPin.offsetLeft - shift);
+    if (newCoord < 0) {
+      newCoord = 0;
+    }
+    if (newCoord > effectsLine.offsetWidth) {
+      newCoord = effectsLine.offsetWidth;
+    }
+    effectsPin.style.left = newCoord + 'px';
+    effectsDepth.style.width = newCoord + 'px';
+    var newValue = getPercents(newCoord);
+    var blurAndHeatValue = Math.round(MAX_EFFECT * newValue) * HUNDREDTH_PART;
+    if (photoPreview.classList[1] === effects.chrome) {
+      photoPreview.style.filter = 'grayscale(' + (newValue * HUNDREDTH_PART) + ')';
+    } else if (photoPreview.classList[1] === effects.sepia) {
+      photoPreview.style.filter = 'sepia(' + (newValue * HUNDREDTH_PART) + ')';
+    } else if (photoPreview.classList[1] === effects.marvin) {
+      photoPreview.style.filter = 'invert(' + newValue + '%)';
+    } else if (photoPreview.classList[1] === effects.phobos) {
+      photoPreview.style.filter = 'blur(' + blurAndHeatValue + 'px)';
+    } else if (photoPreview.classList[1] === effects.heat) {
+      photoPreview.style.filter = 'brightness(' + blurAndHeatValue + ')';
+    }
+  };
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+    effectsLevelInput.value = getPercents(effectsPin.offsetLeft);
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
 });
 
 var isCountCorrect = function (array) {
