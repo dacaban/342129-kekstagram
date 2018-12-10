@@ -46,18 +46,26 @@
     return Math.round(coord * 100 / effectsLine.offsetWidth);
   };
 
-  var getValueInLimit = function (value, min, max) {
-    if (value < min) {
+  var isCursorOnLeft = function (cursorPosition, min) {
+    return (cursorPosition < min);
+  };
+
+  var isCursorOnRight = function (cursorPosition, max) {
+    return (cursorPosition > max);
+  };
+
+  var getValueInLimit = function (evt, value, min, max) {
+    if (value < min || isCursorOnLeft(evt.clientX, effectsLine.getBoundingClientRect().left)) {
       return min;
     }
-    if (value > max) {
+    if (value > max || isCursorOnRight(evt.clientX, effectsLine.getBoundingClientRect().right)) {
       return max;
     }
     return value;
   };
 
-  var setCoord = function (shift) {
-    return getValueInLimit(effectsPin.offsetLeft - shift, 0, effectsLine.offsetWidth);
+  var setCoord = function (evt, shift) {
+    return getValueInLimit(evt, effectsPin.offsetLeft - shift, 0, effectsLine.offsetWidth);
   };
 
   var chooseEffectValue = function (coord) {
@@ -88,21 +96,26 @@
     cleanAttributes(scalePhotoPreview);
     setEffect(target, scalePhotoPreview);
     effectsLevelInput.value = 100;
-    effectsPin.style.left = effectsLine.offsetWidth + 'px';
-    effectsDepth.style.width = effectsLine.offsetWidth + 'px';
+    effectsPin.style.left = (effectsLine.offsetWidth - 50) + 'px';
+    effectsDepth.style.width = (effectsLine.offsetWidth - 50) + 'px';
   });
 
   effectsPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
     var startCoordX = evt.clientX;
     var onMouseMove = function (moveEvt) {
-      moveEvt.preventDefault();
-      var shift = startCoordX - moveEvt.clientX;
-      startCoordX = moveEvt.clientX;
-      var newCoord = setCoord(shift);
-      effectsPin.style.left = newCoord + 'px';
-      effectsDepth.style.width = newCoord + 'px';
-      chooseEffectValue(newCoord);
+      if (
+        !isCursorOnLeft(moveEvt.clientX, effectsLine.getBoundingClientRect().left)
+        || !isCursorOnRight(moveEvt.clientX, effectsLine.getBoundingClientRect().right)
+      ) {
+        moveEvt.preventDefault();
+        var shift = startCoordX - moveEvt.clientX;
+        startCoordX = moveEvt.clientX;
+        var newCoord = setCoord(moveEvt, shift);
+        effectsPin.style.left = newCoord + 'px';
+        effectsDepth.style.width = newCoord + 'px';
+        chooseEffectValue(newCoord);
+      }
     };
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
