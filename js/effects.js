@@ -23,7 +23,7 @@
     return effects;
   };
 
-  var effects = getEffectsList();
+  var effectsMap = getEffectsList();
 
   var cleanAttributes = function (element) {
     element.removeAttribute('style');
@@ -34,7 +34,7 @@
 
   var setEffect = function (preview, origin) {
     var effectKey = preview.id.split('-').pop();
-    origin.classList.add(effects[effectKey]);
+    origin.classList.add(effectsMap[effectKey]);
     if (effectKey === 'none') {
       effectsLevelElement.classList.add('hidden');
     } else {
@@ -73,19 +73,19 @@
     var blurAndHeatValue = Math.round(MAX_EFFECT * newValue) * scaleModule.HUNDREDTH_PART;
     var effectClass = scaleModule.photoPreview.classList[1];
     switch (effectClass) {
-      case effects.chrome:
+      case effectsMap.chrome:
         scaleModule.photoPreview.style.filter = 'grayscale(' + (newValue * scaleModule.HUNDREDTH_PART) + ')';
         break;
-      case effects.sepia:
+      case effectsMap.sepia:
         scaleModule.photoPreview.style.filter = 'sepia(' + (newValue * scaleModule.HUNDREDTH_PART) + ')';
         break;
-      case effects.marvin:
+      case effectsMap.marvin:
         scaleModule.photoPreview.style.filter = 'invert(' + newValue + '%)';
         break;
-      case effects.phobos:
+      case effectsMap.phobos:
         scaleModule.photoPreview.style.filter = 'blur(' + blurAndHeatValue + 'px)';
         break;
-      case effects.heat:
+      case effectsMap.heat:
         scaleModule.photoPreview.style.filter = 'brightness(' + blurAndHeatValue + ')';
         break;
     }
@@ -96,8 +96,8 @@
     cleanAttributes(scalePhotoPreview);
     setEffect(target, scalePhotoPreview);
     effectsLevelInput.value = 100;
-    effectsPin.style.left = (effectsLine.offsetWidth - 50) + 'px';
-    effectsDepth.style.width = (effectsLine.offsetWidth - 50) + 'px';
+    effectsPin.style.left = (effectsLine.offsetWidth) + 'px';
+    effectsDepth.style.width = (effectsLine.offsetWidth) + 'px';
   });
 
   effectsPin.addEventListener('mousedown', function (evt) {

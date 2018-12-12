@@ -1,22 +1,17 @@
 'use strict';
 
 (function () {
-  var FIRST_AVATAR_INDEX = 1;
-  var LAST_AVATAR_INDEX = 6;
-
   var util = window.util;
   var bigPictureElement = document.querySelector('.big-picture');
+  var picturesElement = document.querySelector('.pictures');
   var pictureCommentList = bigPictureElement.querySelector('.social__comments');
   var pictureComment = pictureCommentList.querySelector('.social__comment');
   var commentInput = bigPictureElement.querySelector('.social__footer-text');
 
   var renderComment = function (comment) {
     var pictureCommentsClone = pictureComment.cloneNode(true);
-    pictureCommentsClone.querySelector('.social__picture').src =
-      'img/avatar-'
-      + util.getRandomInt(FIRST_AVATAR_INDEX, LAST_AVATAR_INDEX)
-      + '.svg';
-    pictureCommentsClone.querySelector('.social__text').textContent = comment;
+    pictureCommentsClone.querySelector('.social__picture').src = comment.avatar.toString();
+    pictureCommentsClone.querySelector('.social__text').textContent = comment.message;
     return pictureCommentsClone;
   };
 
@@ -24,8 +19,8 @@
   var bigPictureOpen = function (photo) {
     util.cleanElement(pictureCommentList);
     bigPictureElement.querySelector('.big-picture__img').querySelector('img').src = photo.url;
-    bigPictureElement.querySelector('.likes-count').textContent = photo.likes;
-    bigPictureElement.querySelector('.comments-count').textContent = photo.comments.length;
+    bigPictureElement.querySelector('.likes-count').textContent = photo.likes.toString();
+    bigPictureElement.querySelector('.comments-count').textContent = photo.comments.length.toString();
     bigPictureElement.querySelector('.social__caption').textContent = photo.description;
 
     var fragmentComments = document.createDocumentFragment();
@@ -38,17 +33,17 @@
     util.openPopup(bigPictureElement);
   };
 
-  window.pictures.picturesElement.addEventListener('click', function (evt) {
+  picturesElement.addEventListener('click', function (evt) {
     var target = evt.target;
     if (target.classList.contains('picture__img')) {
-      bigPictureOpen(window.pictures.usersPhotos[target.id]);
+      bigPictureOpen(window.getPhotos()[target.id]);
     }
   });
 
-  window.pictures.picturesElement.addEventListener('keydown', function (evt) {
+  picturesElement.addEventListener('keydown', function (evt) {
     var target = evt.target;
     if ((util.isEnterEvent(evt)) && (target.classList.contains('picture'))) {
-      bigPictureOpen(window.pictures.usersPhotos[target.querySelector('.picture__img').id]);
+      bigPictureOpen(window.getPhotos()[target.querySelector('.picture__img').id]);
     }
   });
 
