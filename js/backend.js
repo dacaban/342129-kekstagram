@@ -36,16 +36,16 @@
 
     xhr.addEventListener('load', function () {
       if (xhr.status === CODE_SUCCESS) {
-        onLoad(xhr.response);
+        onLoad();
       } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        onError();
       }
     });
     xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
+      onError();
     });
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      onError();
     });
 
     xhr.open('POST', URL_SAVE);

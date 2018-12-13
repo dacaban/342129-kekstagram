@@ -3,7 +3,6 @@
 (function () {
   var util = window.util;
   var bigPictureElement = document.querySelector('.big-picture');
-  var picturesElement = document.querySelector('.pictures');
   var pictureCommentList = bigPictureElement.querySelector('.social__comments');
   var pictureComment = pictureCommentList.querySelector('.social__comment');
   var commentInput = bigPictureElement.querySelector('.social__footer-text');
@@ -33,14 +32,14 @@
     util.openPopup(bigPictureElement);
   };
 
-  picturesElement.addEventListener('click', function (evt) {
+  window.render.picturesElement.addEventListener('click', function (evt) {
     var target = evt.target;
     if (target.classList.contains('picture__img')) {
       bigPictureOpen(window.getPhotos()[target.id]);
     }
   });
 
-  picturesElement.addEventListener('keydown', function (evt) {
+  window.render.picturesElement.addEventListener('keydown', function (evt) {
     var target = evt.target;
     if ((util.isEnterEvent(evt)) && (target.classList.contains('picture'))) {
       bigPictureOpen(window.getPhotos()[target.querySelector('.picture__img').id]);

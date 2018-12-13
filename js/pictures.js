@@ -8,7 +8,7 @@
     for (var i = 0; i < usersPhotos.length; i++) {
       usersPhotos[i].id = i;
     }
-    window.render(usersPhotos);
+    window.render.render(usersPhotos);
   };
 
   var errorHandler = function (errorMessage) {

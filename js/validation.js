@@ -4,7 +4,7 @@
   var HASHTAGS_MAX = 5;
   var HASHTAGS_LENGTH_MAX = 20;
 
-  var hashtagInput = window.upload.hashtagInput;
+  var hashtagInput = window.effects.hashtagInput;
 
   var isCountCorrect = function (hashtags) {
     return (hashtags.length <= HASHTAGS_MAX);
@@ -82,7 +82,7 @@
   };
 
   hashtagInput.addEventListener('input', function () {
-    if (!hashtagInput.value) {
+    if (hashtagInput.value) {
       var hashtags = hashtagInput.value.split(' ');
       setValidation(hashtags);
     } else {

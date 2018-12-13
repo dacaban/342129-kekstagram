@@ -2,18 +2,23 @@
 
 (function () {
   var MAX_EFFECT = 3;
+  var MAX_VALUE = 100;
 
-  var uploadModule = window.upload;
   var scaleModule = window.scale;
   var scalePhotoPreview = scaleModule.photoPreview;
-  var effectsElement = uploadModule.uploadElement.querySelector('.effects');
+  var scaleValue = scaleModule.scaleValue;
+  var uploadElement = window.uploadElement;
+  var effectsElement = uploadElement.querySelector('.effects');
   var effectsInput = effectsElement.querySelectorAll('.effects__radio');
+  window.inputs = effectsInput;
   var effectsPreviews = effectsElement.querySelectorAll('.effects__preview');
-  var effectsLevelElement = uploadModule.uploadElement.querySelector('.effect-level');
+  var effectsLevelElement = uploadElement.querySelector('.effect-level');
   var effectsLine = effectsLevelElement.querySelector('.effect-level__line');
   var effectsLevelInput = effectsLevelElement.querySelector('.effect-level__value');
   var effectsPin = effectsLevelElement.querySelector('.effect-level__pin');
   var effectsDepth = effectsLevelElement.querySelector('.effect-level__depth');
+  var hashtagInput = uploadElement.querySelector('.text__hashtags');
+  var descriptionTextarea = uploadElement.querySelector('.text__description');
 
   var getEffectsList = function () {
     var effects = {};
@@ -91,13 +96,28 @@
     }
   };
 
+  var resetEffect = function () {
+    effectsLevelInput.value = MAX_VALUE;
+    effectsPin.style.left = (effectsLine.offsetWidth) + 'px';
+    effectsDepth.style.width = (effectsLine.offsetWidth) + 'px';
+    scaleValue.value = window.scale.MAX_SCALE + '%';
+  };
+
+  var resetSettings = function () {
+    resetEffect();
+    cleanAttributes(scalePhotoPreview);
+    effectsInput[0].setAttribute('checked', '');
+    effectsLevelElement.classList.add('hidden');
+    hashtagInput.value = '';
+    descriptionTextarea.value = '';
+
+  };
+
   effectsElement.addEventListener('click', function (evt) {
     var target = evt.target;
     cleanAttributes(scalePhotoPreview);
+    resetEffect();
     setEffect(target, scalePhotoPreview);
-    effectsLevelInput.value = 100;
-    effectsPin.style.left = (effectsLine.offsetWidth) + 'px';
-    effectsDepth.style.width = (effectsLine.offsetWidth) + 'px';
   });
 
   effectsPin.addEventListener('mousedown', function (evt) {
@@ -126,5 +146,11 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
+
+  window.effects = {
+    resetSettings: resetSettings,
+    hashtagInput: hashtagInput,
+    descriptionTextarea: descriptionTextarea
+  };
 }
 )();

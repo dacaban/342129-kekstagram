@@ -4,7 +4,6 @@
 
   var picturesElement = document.querySelector('.pictures');
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-
   var renderPhoto = function (userPhoto) {
     var userPhotoClone = pictureTemplate.cloneNode(true);
     userPhotoClone.querySelector('.picture__img').src = userPhoto.url;
@@ -14,12 +13,15 @@
     return userPhotoClone;
   };
 
-  window.render = function (data) {
-    var fragment = document.createDocumentFragment();
+  window.render = {
+    picturesElement: picturesElement,
+    render: function (data) {
+      var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < PHOTOS; i++) {
-      fragment.appendChild(renderPhoto(data[i]));
+      for (var i = 0; i < PHOTOS; i++) {
+        fragment.appendChild(renderPhoto(data[i]));
+      }
+      picturesElement.appendChild(fragment);
     }
-    picturesElement.appendChild(fragment);
   };
 })();
