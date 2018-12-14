@@ -1447,3 +1447,20 @@ main {
     grid-row: 1 / span 3;
   }
 }
+
+
+/**
+ * Блок с ошибкой загрузки пользовательских изображений
+ */
+
+.load-error {
+  z-index: 100;
+  margin: 0 auto;
+  text-align: center;
+  background-color: red;
+  position: fixed;
+  left: 0;
+  right: 0;
+  font-size: 15px;
+}
+

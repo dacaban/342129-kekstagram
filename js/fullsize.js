@@ -35,14 +35,14 @@
   window.render.picturesElement.addEventListener('click', function (evt) {
     var target = evt.target;
     if (target.classList.contains('picture__img')) {
-      bigPictureOpen(window.getPhotos()[target.id]);
+      bigPictureOpen(window.pictures.getPhotos()[target.id]);
     }
   });
 
   window.render.picturesElement.addEventListener('keydown', function (evt) {
     var target = evt.target;
     if ((util.isEnterEvent(evt)) && (target.classList.contains('picture'))) {
-      bigPictureOpen(window.getPhotos()[target.querySelector('.picture__img').id]);
+      bigPictureOpen(window.pictures.getPhotos()[target.querySelector('.picture__img').id]);
     }
   });
 

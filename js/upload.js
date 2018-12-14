@@ -101,6 +101,6 @@
     evt.preventDefault();
   });
 
-  window.uploadElement = uploadElement;
+  window.upload = uploadElement;
 }
 )();
