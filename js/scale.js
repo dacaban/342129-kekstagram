@@ -6,7 +6,7 @@
   var SCALE_STEP = 25;
   var HUNDREDTH_PART = 0.01;
 
-  var uploadElement = window.upload.uploadElement;
+  var uploadElement = window.uploadElement;
   var util = window.util;
   var scaleElement = uploadElement.querySelector('.scale');
   var scaleSmaller = scaleElement.querySelector('.scale__control--smaller');
@@ -58,7 +58,9 @@
 
   window.scale = {
     photoPreview: photoPreview,
-    HUNDREDTH_PART: HUNDREDTH_PART
+    scaleValue: scaleValue,
+    HUNDREDTH_PART: HUNDREDTH_PART,
+    MAX_SCALE: MAX_SCALE
   };
 }
 )();
