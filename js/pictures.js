@@ -9,6 +9,7 @@
       usersPhotos[i].id = i;
     }
     window.render.render(usersPhotos);
+    window.filters.classList.remove('img-filters--inactive');
   };
 
   var errorHandler = function (errorMessage) {

@@ -16,7 +16,7 @@
 
 
   var bigPictureOpen = function (photo) {
-    util.cleanElement(pictureCommentList);
+    util.cleanElement(pictureCommentList, 'social__comment');
     bigPictureElement.querySelector('.big-picture__img').querySelector('img').src = photo.url;
     bigPictureElement.querySelector('.likes-count').textContent = photo.likes.toString();
     bigPictureElement.querySelector('.comments-count').textContent = photo.comments.length.toString();
