@@ -6,6 +6,7 @@
   var pictureCommentList = bigPictureElement.querySelector('.social__comments');
   var pictureComment = pictureCommentList.querySelector('.social__comment');
   var commentInput = bigPictureElement.querySelector('.social__footer-text');
+  var commentsLoader = document.querySelector('.comments-loader');
 
   var renderComment = function (comment) {
     var pictureCommentsClone = pictureComment.cloneNode(true);
@@ -17,20 +18,19 @@
 
   var bigPictureOpen = function (photo) {
     util.cleanElement(pictureCommentList, 'social__comment');
+    window.comments.initComments(photo);
     bigPictureElement.querySelector('.big-picture__img').querySelector('img').src = photo.url;
     bigPictureElement.querySelector('.likes-count').textContent = photo.likes.toString();
-    bigPictureElement.querySelector('.comments-count').textContent = photo.comments.length.toString();
     bigPictureElement.querySelector('.social__caption').textContent = photo.description;
-
-    var fragmentComments = document.createDocumentFragment();
-    for (var j = 0; j < photo.comments.length; j++) {
-      fragmentComments.appendChild(renderComment(photo.comments[j]));
-    }
-
-    pictureCommentList.appendChild(fragmentComments);
+    bigPictureElement.querySelector('.comments-count').textContent = photo.comments.length.toString();
+    window.comments.goToNextPage();
 
     util.openPopup(bigPictureElement);
   };
+
+  commentsLoader.addEventListener('click', function () {
+    window.comments.goToNextPage();
+  });
 
   window.render.picturesElement.addEventListener('click', function (evt) {
     var target = evt.target;
@@ -50,6 +50,7 @@
 
   bigPictureClose.addEventListener('click', function () {
     util.closePopup(bigPictureElement);
+    window.comments.clearComments();
   });
 
   document.addEventListener('keydown', function (evt) {
@@ -59,10 +60,12 @@
       && document.activeElement !== commentInput
     ) {
       util.closePopup(bigPictureElement);
+      window.comments.clearComments();
     }
   });
 
-  var commentsLoader = bigPictureElement.querySelector('.comments-loader');
-  commentsLoader.classList.add('visually-hidden');
+  window.fullsize = {
+    renderComment: renderComment
+  };
 }
 )();
