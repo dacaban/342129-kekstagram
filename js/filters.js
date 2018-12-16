@@ -1,8 +1,9 @@
 'use strict';
 
 (function () {
+  var NEW_PHOTOS_COUNT = 10;
   var filtersElement = document.querySelector('.img-filters');
-  var activeButton = filtersElement.querySelectorAll('.img-filters__button--active');
+  var activeButton = filtersElement.querySelector('.img-filters__button--active');
   var picturesElement = document.querySelector('.pictures');
 
   var getActiveButtonId = function (target) {
@@ -14,25 +15,27 @@
     return target.id;
   };
 
+  var shuffle = function (arr) {
+    var currentIndex = arr.length;
+    var randomIndex;
+    var temporaryValue;
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      temporaryValue = arr[currentIndex];
+      arr[currentIndex] = arr[randomIndex];
+      arr[randomIndex] = temporaryValue;
+    }
+  };
+
   var comparator = function (left, right) {
     return right - left;
   };
 
-  // TODO: это вроде как коллбэки, но называются не как коллбэки. Может ли коллбэк возвращать значение?
   var getNewPhotos = function (photos) {
-    var newPhotos = [];
-    var randomIndex;
-    var newElem;
-    for (var i = 0; i < 10; i++) {
-      randomIndex = window.util.getRandomInt(0, photos.length - 1);
-      newElem = photos[randomIndex];
-      if (newPhotos.indexOf(newElem) === -1) {
-        newPhotos.push(newElem);
-      } else {
-        i--; // TODO: чет стремная фигня
-      }
-    }
-    return newPhotos;
+    var newPhotos = photos.slice();
+    shuffle(newPhotos);
+    return newPhotos.slice(0, NEW_PHOTOS_COUNT);
   };
 
   var getDiscussedPhotos = function (photos) {
@@ -48,8 +51,20 @@
     return discussedPhotos;
   };
 
-  var updatePhotos = function (cb) {
-    var newPhotosList = cb(window.pictures.getPhotos());
+  var onPhotosUpdate = function (filter) {
+    var initialPhotos = window.pictures.getPhotos();
+    var newPhotosList = [];
+    switch (filter) {
+      case 'filter-popular':
+        newPhotosList = initialPhotos;
+        break;
+      case 'filter-new':
+        newPhotosList = getNewPhotos(initialPhotos);
+        break;
+      case 'filter-discussed':
+        newPhotosList = getDiscussedPhotos(initialPhotos);
+        break;
+    }
     window.util.cleanElement(picturesElement, 'picture');
     window.render.render(newPhotosList);
   };
@@ -57,17 +72,7 @@
   filtersElement.addEventListener('click', function (evt) {
     var target = evt.target;
     var id = getActiveButtonId(target);
-    switch (id) {
-      case 'filter-popular':
-        updatePhotos(window.pictures.getPhotos);
-        break;
-      case 'filter-new':
-        updatePhotos(getNewPhotos);
-        break;
-      case 'filter-discussed':
-        updatePhotos(getDiscussedPhotos);
-        break;
-    }
+    window.debounce(onPhotosUpdate.bind(evt, id));
   });
 
   window.filters = filtersElement;
