@@ -114,8 +114,8 @@
   effectsElement.addEventListener('click', function (evt) {
     var target = evt.target;
     cleanAttributes(scalePhotoPreview);
-    resetEffect();
     setEffect(target, scalePhotoPreview);
+    resetEffect();
   });
 
   effectsPin.addEventListener('mousedown', function (evt) {

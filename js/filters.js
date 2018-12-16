@@ -72,7 +72,9 @@
   filtersElement.addEventListener('click', function (evt) {
     var target = evt.target;
     var id = getActiveButtonId(target);
-    window.debounce(onPhotosUpdate.bind(evt, id));
+    if (id) {
+      window.debounce(onPhotosUpdate.bind(evt, id));
+    }
   });
 
   window.filters = filtersElement;
