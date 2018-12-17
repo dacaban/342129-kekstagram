@@ -3,6 +3,7 @@
 (function () {
   var HASHTAGS_MAX = 5;
   var HASHTAGS_LENGTH_MAX = 20;
+  var ANIMATION_TIME = 1000;
 
   var hashtagInput = window.effects.hashtagInput;
 
@@ -88,5 +89,11 @@
     } else {
       hashtagInput.setCustomValidity('');
     }
+  });
+  hashtagInput.addEventListener('invalid', function () {
+    hashtagInput.classList.add('input-error');
+    window.setTimeout(function () {
+      hashtagInput.classList.remove('input-error');
+    }, ANIMATION_TIME);
   });
 })();

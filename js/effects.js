@@ -103,9 +103,7 @@
   };
 
   var resetSettings = function () {
-    resetEffect();
-    cleanAttributes(scalePhotoPreview);
-    effectsInput[0].setAttribute('checked', '');
+    effectsInput[0].click();
     effectsLevelElement.classList.add('hidden');
     hashtagInput.value = '';
     descriptionTextarea.value = '';

@@ -1,7 +1,5 @@
 'use strict';
 (function () {
-  // var PHOTOS = 25;
-
   var picturesElement = document.querySelector('.pictures');
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
   var renderPhoto = function (userPhoto) {
@@ -15,7 +13,7 @@
 
   window.render = {
     picturesElement: picturesElement,
-    render: function (data) {
+    createPhoto: function (data) {
       var fragment = document.createDocumentFragment();
 
       for (var i = 0; i < data.length; i++) {
