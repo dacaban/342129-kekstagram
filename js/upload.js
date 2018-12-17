@@ -31,6 +31,7 @@
   });
 
   uploadClose.addEventListener('click', function () {
+    window.effects.resetSettings();
     util.closePopup(uploadElement);
   });
 
@@ -41,6 +42,7 @@
       && document.activeElement !== window.effects.hashtagInput
       && document.activeElement !== window.effects.descriptionTextarea
     ) {
+      window.effects.resetSettings();
       util.closePopup(uploadElement);
     }
   });
@@ -101,6 +103,6 @@
     evt.preventDefault();
   });
 
-  window.uploadElement = uploadElement;
+  window.upload = uploadElement;
 }
 )();

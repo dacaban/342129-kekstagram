@@ -1447,3 +1447,51 @@ main {
     grid-row: 1 / span 3;
   }
 }
+
+
+/**
+ * Блок с ошибкой загрузки пользовательских изображений
+ */
+
+.load-error {
+  z-index: 100;
+  margin: 0 auto;
+  text-align: center;
+  background-color: red;
+  position: fixed;
+  left: 0;
+  right: 0;
+  font-size: 15px;
+}
+
+/**
+ * Подсветка невалидного поля
+ */
+
+.input-error {
+  -webkit-animation: flasher 0.4s;
+  animation: flasher 0.4s;
+}
+
+@keyframes flasher {
+  0%,100% {
+    -webkit-box-shadow: 0 0 2px 2px #ff000a;
+    box-shadow: 0 0 2px 2px #ff000a;
+  }
+  15% {
+    -webkit-box-shadow: 0 0 4px 2px #ff594d;
+    box-shadow: 0 0 4px 2px #ff594d;
+  }
+  30%,90% {
+    -webkit-box-shadow: 0 0 6px 2px #ff594d;
+    box-shadow: 0 0 6px 2px #ff594d;
+  }
+  45%,75% {
+    -webkit-box-shadow: 0 0 8px 2px #ff594d;
+    box-shadow: 0 0 8px 2px #ff594d;
+  }
+  60% {
+    -webkit-box-shadow: 0 0 10px 2px #ff594d;
+    box-shadow: 0 0 10px 2px #ff594d;
+  }
+}

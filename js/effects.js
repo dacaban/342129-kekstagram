@@ -7,10 +7,9 @@
   var scaleModule = window.scale;
   var scalePhotoPreview = scaleModule.photoPreview;
   var scaleValue = scaleModule.scaleValue;
-  var uploadElement = window.uploadElement;
+  var uploadElement = window.upload;
   var effectsElement = uploadElement.querySelector('.effects');
   var effectsInput = effectsElement.querySelectorAll('.effects__radio');
-  window.inputs = effectsInput;
   var effectsPreviews = effectsElement.querySelectorAll('.effects__preview');
   var effectsLevelElement = uploadElement.querySelector('.effect-level');
   var effectsLine = effectsLevelElement.querySelector('.effect-level__line');
@@ -110,14 +109,13 @@
     effectsLevelElement.classList.add('hidden');
     hashtagInput.value = '';
     descriptionTextarea.value = '';
-
   };
 
   effectsElement.addEventListener('click', function (evt) {
     var target = evt.target;
     cleanAttributes(scalePhotoPreview);
-    resetEffect();
     setEffect(target, scalePhotoPreview);
+    resetEffect();
   });
 
   effectsPin.addEventListener('mousedown', function (evt) {

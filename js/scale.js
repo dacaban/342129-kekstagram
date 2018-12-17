@@ -6,7 +6,7 @@
   var SCALE_STEP = 25;
   var HUNDREDTH_PART = 0.01;
 
-  var uploadElement = window.uploadElement;
+  var uploadElement = window.upload;
   var util = window.util;
   var scaleElement = uploadElement.querySelector('.scale');
   var scaleSmaller = scaleElement.querySelector('.scale__control--smaller');

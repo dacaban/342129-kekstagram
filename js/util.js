@@ -10,10 +10,12 @@
     return Math.floor(Math.random() * (max - min)) + min;
   };
 
-  var cleanElement = function (element) {
+  var cleanElement = function (element, classRemove) {
     if (element.children.length > 0) {
       for (var i = element.children.length - 1; i >= 0; i--) {
-        element.removeChild(element.children[i]);
+        if (element.children[i].classList.contains(classRemove)) {
+          element.removeChild(element.children[i]);
+        }
       }
     }
   };
