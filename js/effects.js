@@ -7,7 +7,9 @@
   var scaleModule = window.scale;
   var scalePhotoPreview = scaleModule.photoPreview;
   var scaleValue = scaleModule.value;
-  var uploadElement = window.upload;
+  var uploadModule = window.upload;
+  var uploadElement = uploadModule.modal;
+  var uploadInput = uploadModule.input;
   var effectsElement = uploadElement.querySelector('.effects');
   var effectsInput = effectsElement.querySelectorAll('.effects__radio');
   var effectsPreviews = effectsElement.querySelectorAll('.effects__preview');
@@ -109,6 +111,7 @@
     effectsLevelElement.classList.add('hidden');
     hashtagInput.value = '';
     descriptionTextarea.value = '';
+    uploadInput.value = '';
   };
 
   effectsElement.addEventListener('click', function (evt) {

@@ -109,6 +109,9 @@
     evt.preventDefault();
   });
 
-  window.upload = uploadElement;
+  window.upload = {
+    modal: uploadElement,
+    input: uploadInput
+  };
 }
 )();
