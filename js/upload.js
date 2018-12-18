@@ -19,9 +19,10 @@
 
   var closeTemplate = function (template) {
     template.classList.add('visually-hidden');
+    return true;
   };
 
-  var onEscDownUpload = function (evt) {
+  var onEscDown = function (evt) {
     if (
       util.isPopupOpen(uploadElement)
       && util.isEscEvent(evt)
@@ -30,21 +31,15 @@
     ) {
       window.effects.resetSettings();
       util.closePopup(uploadElement);
-      document.removeEventListener('keydown', onEscDownUpload);
+      document.removeEventListener('keydown', onEscDown);
     }
   };
 
-  var addTemplateListenerEsc = function (element) {
-    document.addEventListener('keydown', function (openEvt) {
-      if (util.isEscEvent(openEvt)) {
-        closeTemplate(element);
-        document.removeEventListener('keydown', function (closeEvt) {
-          if (util.isEscEvent(closeEvt)) {
-            closeTemplate(element);
-          }
-        });
-      }
-    });
+  var closeModal = function (evt) {
+    if (util.isEscEvent(evt)) {
+      closeTemplate(successMessageElement.classList.contains('visually-hidden') ? errorMessageElement : successMessageElement);
+      document.removeEventListener('keydown', closeModal);
+    }
   };
 
   successMessageElement.classList.add('visually-hidden');
@@ -54,7 +49,7 @@
 
   uploadInput.addEventListener('change', function () {
     util.openPopup(uploadElement);
-    document.addEventListener('keydown', onEscDownUpload);
+    document.addEventListener('keydown', onEscDown);
   });
 
   uploadClose.addEventListener('click', function () {
@@ -98,14 +93,14 @@
     window.effects.resetSettings();
     util.closePopup(uploadElement);
     openTemplate(successMessageElement);
-    addTemplateListenerEsc(successMessageElement);
+    document.addEventListener('keydown', closeModal);
   };
 
   var errorHandler = function () {
     window.effects.resetSettings();
     util.closePopup(uploadElement);
     openTemplate(errorMessageElement);
-    addTemplateListenerEsc(errorMessageElement);
+    document.addEventListener('keydown', closeModal);
   };
 
   var form = document.querySelector('.img-upload__form');

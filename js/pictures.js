@@ -5,9 +5,9 @@
 
   var successHandler = function (data) {
     usersPhotos = data;
-    for (var i = 0; i < usersPhotos.length; i++) {
-      usersPhotos[i].id = i;
-    }
+    usersPhotos.forEach(function (item, i) {
+      item.id = i;
+    });
     window.render.render(usersPhotos);
     window.filters.classList.remove('img-filters--inactive');
   };
