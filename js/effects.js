@@ -6,14 +6,14 @@
 
   var scaleModule = window.scale;
   var scalePhotoPreview = scaleModule.photoPreview;
-  var scaleValue = scaleModule.scaleValue;
+  var scaleValue = scaleModule.value;
   var uploadElement = window.upload;
   var effectsElement = uploadElement.querySelector('.effects');
   var effectsInput = effectsElement.querySelectorAll('.effects__radio');
   var effectsPreviews = effectsElement.querySelectorAll('.effects__preview');
   var effectsLevelElement = uploadElement.querySelector('.effect-level');
   var effectsLine = effectsLevelElement.querySelector('.effect-level__line');
-  var effectsLevelInput = effectsLevelElement.querySelector('.effect-level__value');
+  var LevelInput = effectsLevelElement.querySelector('.effect-level__value');
   var effectsPin = effectsLevelElement.querySelector('.effect-level__pin');
   var effectsDepth = effectsLevelElement.querySelector('.effect-level__depth');
   var hashtagInput = uploadElement.querySelector('.text__hashtags');
@@ -96,7 +96,7 @@
   };
 
   var resetEffect = function () {
-    effectsLevelInput.value = MAX_VALUE;
+    LevelInput.value = MAX_VALUE;
     effectsPin.style.left = (effectsLine.offsetWidth) + 'px';
     effectsDepth.style.width = (effectsLine.offsetWidth) + 'px';
     scaleValue.value = window.scale.MAX_SCALE + '%';
@@ -137,7 +137,7 @@
     };
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
-      effectsLevelInput.value = getPercents(effectsPin.offsetLeft);
+      LevelInput.value = getPercents(effectsPin.offsetLeft);
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };

@@ -58,7 +58,7 @@
 
   window.scale = {
     photoPreview: photoPreview,
-    scaleValue: scaleValue,
+    value: scaleValue,
     HUNDREDTH_PART: HUNDREDTH_PART,
     MAX_SCALE: MAX_SCALE
   };

@@ -9,13 +9,13 @@
 
   window.comments = {
     currentPage: 0,
-    initComments: function (photo) {
+    init: function (photo) {
       this.comments = photo.comments;
     },
-    getCommentsCount: function () {
+    getCount: function () {
       return this.comments.length;
     },
-    getCurrentCommentsCount: function () {
+    getCurrentCount: function () {
       return (this.currentPage - 1) * COMMENTS_PORTION;
     },
     setLoaderHidden: function () {
@@ -25,14 +25,14 @@
       commentsLoader.classList.remove('visually-hidden');
     },
     isPageLast: function () {
-      return this.currentPage * COMMENTS_PORTION >= this.getCommentsCount();
+      return this.currentPage * COMMENTS_PORTION >= this.getCount();
     },
 
     getPagesBorders: function () {
-      var start = this.getCurrentCommentsCount();
+      var start = this.getCurrentCount();
       var end = start + COMMENTS_PORTION;
-      if (this.getCommentsCount() - this.getCurrentCommentsCount() < COMMENTS_PORTION) {
-        end = start + this.getCommentsCount() - this.getCurrentCommentsCount();
+      if (this.getCount() - this.getCurrentCount() < COMMENTS_PORTION) {
+        end = start + this.getCount() - this.getCurrentCount();
       }
       return {
         start: start,
@@ -57,7 +57,7 @@
       this.currentPage++;
       this.renderPage();
     },
-    clearComments: function () {
+    clear: function () {
       this.currentPage = 0;
       this.comments = [];
       this.setLoaderVisible();
