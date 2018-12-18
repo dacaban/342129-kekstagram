@@ -6,10 +6,6 @@
 
   var body = document.querySelector('body');
 
-  var getRandomInt = function (min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-  };
-
   var cleanElement = function (element, classRemove) {
     if (element.children.length > 0) {
       for (var i = element.children.length - 1; i >= 0; i--) {
@@ -44,7 +40,6 @@
   };
 
   window.util = {
-    getRandomInt: getRandomInt,
     cleanElement: cleanElement,
     openPopup: openPopup,
     closePopup: closePopup,
