@@ -3,8 +3,9 @@
 (function () {
   var CODE_SUCCESS = 200;
   var TIMEOUT = 10000;
-
   var URL_LOAD = 'https://js.dump.academy/kekstagram/data';
+  var URL_SAVE = 'https://js.dump.academy/kekstagram';
+
   var load = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -29,7 +30,6 @@
     xhr.send();
   };
 
-  var URL_SAVE = 'https://js.dump.academy/kekstagram';
   var save = function (data, onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
