@@ -18,8 +18,11 @@
   };
 
   var closeTemplate = function (template) {
-    template.classList.add('visually-hidden');
-    return true;
+    if (util.isPopupOpen(template)) {
+      template.classList.add('visually-hidden');
+      return true;
+    }
+    return false;
   };
 
   var onEscDown = function (evt) {
@@ -47,10 +50,7 @@
   errorMessageElement.classList.add('visually-hidden');
   main.appendChild(errorMessageElement);
 
-  uploadInput.addEventListener('change', function () {
-    util.openPopup(uploadElement);
-    document.addEventListener('keydown', onEscDown);
-  });
+  document.addEventListener('keydown', onEscDown);
 
   uploadClose.addEventListener('click', function () {
     window.effects.resetSettings();

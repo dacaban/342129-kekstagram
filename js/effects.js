@@ -15,7 +15,7 @@
   var effectsPreviews = effectsElement.querySelectorAll('.effects__preview');
   var effectsLevelElement = uploadElement.querySelector('.effect-level');
   var effectsLine = effectsLevelElement.querySelector('.effect-level__line');
-  var LevelInput = effectsLevelElement.querySelector('.effect-level__value');
+  var levelInput = effectsLevelElement.querySelector('.effect-level__value');
   var effectsPin = effectsLevelElement.querySelector('.effect-level__pin');
   var effectsDepth = effectsLevelElement.querySelector('.effect-level__depth');
   var hashtagInput = uploadElement.querySelector('.text__hashtags');
@@ -98,7 +98,7 @@
   };
 
   var resetEffect = function () {
-    LevelInput.value = MAX_VALUE;
+    levelInput.value = MAX_VALUE;
     effectsPin.style.left = (effectsLine.offsetWidth) + 'px';
     effectsDepth.style.width = (effectsLine.offsetWidth) + 'px';
     scaleValue.value = window.scale.MAX_SCALE + '%';
@@ -106,8 +106,7 @@
 
   var resetSettings = function () {
     resetEffect();
-    cleanAttributes(scalePhotoPreview);
-    effectsInput[0].setAttribute('checked', '');
+    effectsInput[0].click();
     effectsLevelElement.classList.add('hidden');
     hashtagInput.value = '';
     descriptionTextarea.value = '';
@@ -140,7 +139,7 @@
     };
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
-      LevelInput.value = getPercents(effectsPin.offsetLeft);
+      levelInput.value = getPercents(effectsPin.offsetLeft);
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
