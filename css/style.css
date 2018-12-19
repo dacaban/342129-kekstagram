@@ -1469,8 +1469,9 @@ main {
  */
 
 .input-error {
-  -webkit-animation: flasher 0.4s;
-  animation: flasher 0.4s;
+  outline: none;
+  -webkit-animation: flasher 1s;
+  animation: flasher 1s;
 }
 
 @keyframes flasher {

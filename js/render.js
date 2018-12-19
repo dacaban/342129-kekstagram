@@ -1,7 +1,5 @@
 'use strict';
 (function () {
-  // var PHOTOS = 25;
-
   var picturesElement = document.querySelector('.pictures');
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
   var renderPhoto = function (userPhoto) {
