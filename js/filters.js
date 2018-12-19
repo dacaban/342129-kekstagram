@@ -71,7 +71,7 @@
         break;
     }
     window.util.cleanElement(picturesElement, 'picture');
-    window.render.render(newPhotosList);
+    window.render.createPhoto(newPhotosList);
   };
 
   filtersElement.addEventListener('click', function (evt) {
