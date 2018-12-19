@@ -5,6 +5,11 @@
   var filtersElement = document.querySelector('.img-filters');
   var activeButton = filtersElement.querySelector('.img-filters__button--active');
   var picturesElement = document.querySelector('.pictures');
+  var Filter = {
+    POPULAR: 'filter-popular',
+    NEW: 'filter-new',
+    DISCUSSED: 'filter-discussed'
+  };
 
   var getActiveButtonId = function (target) {
     if (target.classList.contains('img-filters__button')) {
@@ -55,13 +60,13 @@
     var initialPhotos = window.pictures.getPhotos();
     var newPhotosList = [];
     switch (filter) {
-      case 'filter-popular':
+      case Filter.POPULAR:
         newPhotosList = initialPhotos;
         break;
-      case 'filter-new':
+      case Filter.NEW:
         newPhotosList = getNewPhotos(initialPhotos);
         break;
-      case 'filter-discussed':
+      case Filter.DISCUSSED:
         newPhotosList = getDiscussedPhotos(initialPhotos);
         break;
     }
