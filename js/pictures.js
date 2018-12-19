@@ -8,7 +8,7 @@
     usersPhotos.forEach(function (item, i) {
       item.id = i;
     });
-    window.render.render(usersPhotos);
+    window.render.createPhoto(usersPhotos);
     window.filters.classList.remove('img-filters--inactive');
   };
 

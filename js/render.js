@@ -15,7 +15,7 @@
 
   window.render = {
     picturesElement: picturesElement,
-    render: function (data) {
+    createPhoto: function (data) {
       var fragment = document.createDocumentFragment();
 
       for (var i = 0; i < data.length; i++) {

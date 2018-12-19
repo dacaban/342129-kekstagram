@@ -74,6 +74,10 @@
     return getValueInLimit(evt, effectsPin.offsetLeft - shift, 0, effectsLine.offsetWidth);
   };
 
+  // Я не придумала, как здесь избавиться от switch. Ведь в каждой ветке происходят похожие,
+  // но не одинаковые действия, куда-то нужно передать проценты, куда-то пиксели, куда-то доли, и строка формируется поэтому по-разному.
+  // Я не нашла способа создать здесь handler, только если в него переносить этот switch, в чем не вижу смысла.
+
   var chooseEffectValue = function (coord) {
     var newValue = getPercents(coord);
     var blurAndHeatValue = Math.round(MAX_EFFECT * newValue) * scaleModule.HUNDREDTH_PART;
